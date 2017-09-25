@@ -105,6 +105,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         //             Toast.LENGTH_SHORT).show();
         //    }
         //  });
+        getPermission();
     }
 
     @Override
@@ -161,38 +162,9 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                     v_accY.add(m_acc_data_rotated[1]);
                     v_accZ.add(m_acc_data_rotated[2]);
                 }
-                try {
-                    sleep(2);
-                    //Log.i("Sensorchanged ", " m_acc_data_rotated " + m_acc_data_rotated[0] +"  ,    time : " +time);    //http://www.fileformat.info/tip/java/date2millis.htm  milliseconds convert
-
-                } catch (InterruptedException ie) {  //sleep 주기를 입력받도록, 지금은 start, save가 모두 true면 실행, sleep주기도 입력받아야만 실행되도록
-                }
             }
         }
     }
-
-
-  /*
-  ///////////각각의 변수 선언해서 각각 받아왔었음   --> 지금은 배열주소로 얻어와서 인덱스로 접근
-            tvDataX = (TextView) findViewById(R.id.tvaccX);
-            tvDataY = (TextView) findViewById(R.id.tvaccY);
-            tvDataZ = (TextView) findViewById(R.id.tvaccZ);
-
-            AccX = event.values[0];
-            AccY = event.values[1];
-            AccZ = event.values[2];
-
-            vX.add(AccX);
-            vY.add(AccY);
-            vZ.add(AccZ);
-            vT.add(time);
-
-            time = System.currentTimeMillis();
-
-            tvDataX.setText(String.valueOf(AccX));
-            tvDataY.setText(String.valueOf(AccY));
-            tvDataZ.setText(String.valueOf(AccZ));
-*/
 
     /*********** 센서값의 정확도를 측정할 수 있음  ************/
     @Override
@@ -215,7 +187,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             if (buttonClicked == 1) {
                 timeFileName = System.currentTimeMillis();  //버튼을 눌렀을때의 시간으로 파일명 설정
                 savingstate.setText("파일 저장 중....");
-                writeContents();
+                fileWrite();
                 //Log.i("Time Class ", " Time value in milliseconds " + time);    //http://www.fileformat.info/tip/java/date2millis.htm  milliseconds convert
             }
             else
@@ -225,13 +197,17 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
     /**************** 파일 저장 **************/
     public final int PERMISSIONS_REQUEST_CODE = 1;
-
-    private void writeContents() {
+    public void getPermission(){
         int hasWriteExternalStoragePermission = ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE);
         if (hasWriteExternalStoragePermission == PackageManager.PERMISSION_GRANTED) {   //이미 퍼미션을 가지고 있나
         } else {  //가지고 있지 않으면 퍼미션 요청
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, PERMISSIONS_REQUEST_CODE);
         }
+    }
+
+
+    private void fileWrite() {
+
 
         /// 파일 출력 디렉토리 확인 및 생성
         File temppath = new File(Environment.getExternalStorageDirectory(),

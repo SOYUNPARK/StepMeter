@@ -24,6 +24,8 @@
     <application
         android:allowBackup="true"
         android:label="@string/app_name"
+        android:roundIcon="@mipmap/sn_footprints_round"
+        android:icon="@mipmap/sn_footprints"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".MainActivity">
